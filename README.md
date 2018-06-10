@@ -12,6 +12,7 @@ yarn add intercom-react
 
 ```tsx
 <Intercom
+  open
   appId="fyq3wodw"
   userData={{
     user_id: '9876',
@@ -27,6 +28,7 @@ yarn add intercom-react
 >
 ```
 
+* `open`: whether Intercom is showing or not.
 * `appId`: the ID of your app.
 * `userData`: all user data. If this changes during the lifecycle the component will call `intercom('update', userData)`.
 * `locationKey`: (optional): a key for the component to detect if the location changes. If this changes during the lifecycle the component will call `intercom('update', userData)`.
