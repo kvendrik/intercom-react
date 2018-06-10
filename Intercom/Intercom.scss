@@ -1,0 +1,31 @@
+
+.Intercom {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 999;
+  width: 90px;
+  height: 90px;
+  background: transparent;
+  border: none;
+}
+
+.IntercomAnimating {
+  pointer-events: none;
+}
+
+.IntercomOpen {
+  // copied over directly from the styles
+  // intercom injects inside on the iframe
+  width: 100%;
+  max-width: 451px;
+
+  height: calc(100% - 40px);
+  min-height: 250px;
+  max-height: 704px;
+
+  @media all and (max-width: 451px) {
+    height: 100%;
+    max-height: none;
+  }
+}
