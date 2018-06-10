@@ -41,6 +41,6 @@ yarn add intercom-react
 
 Intercom is the support tool of choice for myself and the companies I work for. An issue I have always had with their library is that its not particularly React friendly. There is a set of React Intercom libraries out there but most of them just mount Intercom to the global scope.
 
-What this means is that if you would get into a situation where you would have to unmount Intercom the three DOM nodes the library mounts (`#intercom-container`, `#intercom-stylesheet` and `#intercom-frame`) will stay mounted, as will the three event listeners the library mounts (2x `beforeunload` and 2x `message`). In other words the existing components are not unmountable.
+What this means is that if you would get into a situation where you would have to unmount Intercom the three DOM nodes the library mounts (`#intercom-container`, `#intercom-stylesheet` and `#intercom-frame`) will stay mounted, as will the four event listeners the library mounts (2x `beforeunload` and 2x `message`). In other words the existing components are not unmountable.
 
-I wrote this component to create am isolated Intercom component that truly cleans up after itself when unmounted for a "true" React experience.
+I wrote this component to create an isolated Intercom component that cleans up after itself when unmounted for a "true" React experience.
