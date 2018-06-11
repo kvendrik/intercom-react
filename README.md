@@ -20,7 +20,7 @@ yarn add intercom-react
     created_at: 1234567890,
     name: 'John Doe',
   }}
-  locationKey={this.props.location.pathname}
+  locationKey="/home"
   onOpen={() => {}}
   onClose={() => {}}
   onUnreadCountChange={(unreadCount) => {}}
@@ -28,9 +28,9 @@ yarn add intercom-react
 >
 ```
 
-* `open`: whether Intercom is showing or not.
 * `appId`: the ID of your app.
 * `userData`: all user data. If this changes during the lifecycle the component will call `intercom('update', userData)`.
+* `open` (optional): whether Intercom is showing or not.
 * `locationKey`: (optional): a key for the component to detect if the location changes. If this changes during the lifecycle the component will call `intercom('update', userData)`.
 * `onOpen` (optional): called when intercom opens.
 * `onClose` (optional): called when intercom closes.
