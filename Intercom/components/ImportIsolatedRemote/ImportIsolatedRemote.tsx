@@ -40,11 +40,18 @@ export default class ImportIsolatedRemote extends React.PureComponent<
   }
 
   componentWillUnmount() {
-    const {scriptNode} = this;
-    if (!scriptNode) {
-      return;
+    const {
+      scriptNode,
+      frameNode: {current: frame},
+    } = this;
+
+    if (frame) {
+      frame.onload = null;
     }
-    scriptNode.onload = null;
+
+    if (scriptNode) {
+      scriptNode.onload = null;
+    }
   }
 
   render() {
