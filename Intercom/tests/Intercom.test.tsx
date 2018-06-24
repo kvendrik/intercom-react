@@ -3,8 +3,6 @@ import {mount} from 'enzyme';
 import {ImportIsolatedRemote} from '../components';
 import Intercom from '..';
 
-import * as styles from '../Intercom.scss';
-
 const mockIntercomSpy = jest.fn();
 jest.mock('../utils', () => ({
   ...require.requireActual('../utils'),
@@ -36,13 +34,6 @@ describe('<Intercom />', () => {
       const node = await mount(<Intercom {...mockProps} />);
       expect(node.find(ImportIsolatedRemote).prop('source')).toBe(
         `https://widget.intercom.io/widget/${mockProps.appId}`,
-      );
-    });
-
-    it('passes in .Intercom as the initial className', async () => {
-      const intercom = await mount(<Intercom {...mockProps} />);
-      expect(intercom.find(ImportIsolatedRemote).prop('className')).toBe(
-        styles.Intercom,
       );
     });
 
