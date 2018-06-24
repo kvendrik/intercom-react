@@ -1,10 +1,10 @@
 import * as React from 'react';
 import {Portal} from '..';
+import * as styles from './ImportIsolatedRemote.scss';
 
 export interface Props {
   title: string;
   source: string;
-  className?: string;
   onImported(frame: HTMLIFrameElement): void;
 }
 
@@ -27,10 +27,16 @@ export default class ImportIsolatedRemote extends React.Component<
 
     const script = document.createElement('script');
     script.src = source;
-    script.onload = () => onImported(frame);
     this.scriptNode = script;
 
-    contentWindow.document.body.appendChild(script);
+    frame.onload = () => {
+      contentWindow.document.body.appendChild(script);
+      script.onload = () => onImported(frame);
+    };
+
+    // some browsers don't trigger iframe.onload (like Safari 11.1.1)
+    // this immediate page refresh fixes that
+    contentWindow.location.reload();
   }
 
   componentWillUnmount() {
@@ -42,10 +48,14 @@ export default class ImportIsolatedRemote extends React.Component<
   }
 
   render() {
-    const {title, className} = this.props;
+    const {title} = this.props;
     return (
       <Portal>
-        <iframe className={className} title={title} ref={this.frameNode} />
+        <iframe
+          className={styles.ImportIsolatedRemote}
+          title={title}
+          ref={this.frameNode}
+        />
       </Portal>
     );
   }

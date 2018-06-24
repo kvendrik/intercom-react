@@ -14,13 +14,6 @@ describe('<ImportIsolatedRemote />', () => {
     expect(node.find('iframe').exists()).toBeTruthy();
   });
 
-  it('uses the given className', async () => {
-    const node = await mount(
-      <ImportIsolatedRemote {...mockProps} className="some-class" />,
-    );
-    expect(node.find('iframe').prop('className')).toBe('some-class');
-  });
-
   it('imports the given source', async () => {
     const onImportedSpy = jest.fn();
     const node = await mount(

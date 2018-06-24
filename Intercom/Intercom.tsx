@@ -69,7 +69,6 @@ export default class Intercom extends React.Component<Props, never> {
       <ImportIsolatedRemote
         title="intercom"
         source={importUrl}
-        className={styles.Intercom}
         onImported={this.initializeIntercom}
       />
     );
@@ -128,11 +127,13 @@ export default class Intercom extends React.Component<Props, never> {
     });
     intercom('onUnreadCountChange', onUnreadCountChange);
 
+    this.frame = frame;
+
     if (open) {
       intercom('show');
+    } else {
+      this.updateState({open: false, animating: false});
     }
-
-    this.frame = frame;
 
     if (onInitialization) {
       onInitialization(intercom);
