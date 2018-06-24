@@ -7,7 +7,7 @@
     "url": "https://github.com/kvendrik/intercom-react.git"
   },
   "keywords": ["intercom", "react", "live", "chat", "support"],
-  "main": "build/intercom-react.js",
+  "main": "build/Intercom/index.js",
   "types": "build/Intercom/index.d.ts",
   "author": "Koen Vendrik <k.vendrik@gmail.com>",
   "license": "MIT",
@@ -26,7 +26,7 @@
     "test:coveralls":
       "yarn test --coverage --coverageReporters=text-lcov | coveralls",
     "ci": "yarn lint && yarn test",
-    "build": "webpack",
+    "build": "tsc",
     "clean": "rm -rf build",
     "prepublish": "yarn clean && yarn build"
   },

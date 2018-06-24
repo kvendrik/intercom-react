@@ -21,7 +21,8 @@ describe('<ImportIsolatedRemote />', () => {
     );
 
     const iframeNode = node.find('iframe').getDOMNode() as HTMLIFrameElement;
-    iframeNode!.onload!({} as Event);
+    const frameOnLoad = iframeNode!.onload!;
+    frameOnLoad.call({});
 
     const script = iframeNode.contentWindow!.document.querySelector('script');
     expect(script!.src).toBe(mockProps.source);
@@ -34,7 +35,8 @@ describe('<ImportIsolatedRemote />', () => {
     );
 
     const iframeNode = node.find('iframe').getDOMNode() as HTMLIFrameElement;
-    iframeNode!.onload!({} as Event);
+    const frameOnLoad = iframeNode!.onload!;
+    frameOnLoad.call({});
 
     const script = iframeNode.contentWindow!.document.querySelector('script');
     const callback = script!.onload!;
@@ -50,7 +52,8 @@ describe('<ImportIsolatedRemote />', () => {
     );
 
     const iframeNode = node.find('iframe').getDOMNode() as HTMLIFrameElement;
-    iframeNode!.onload!({} as Event);
+    const frameOnLoad = iframeNode!.onload!;
+    frameOnLoad.call({});
 
     const script = iframeNode.contentWindow!.document.querySelector('script');
 
