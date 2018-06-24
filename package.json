@@ -25,7 +25,7 @@
     "test:coverage": "yarn test --coverage",
     "test:coveralls":
       "yarn test --coverage --coverageReporters=text-lcov | coveralls",
-    "ci": "yarn lint && yarn test",
+    "ci": "yarn lint && yarn test:coveralls && yarn test",
     "build": "tsc",
     "clean": "rm -rf build",
     "prepublish": "yarn clean && yarn build"
