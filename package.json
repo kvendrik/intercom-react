@@ -20,8 +20,8 @@
       "eslint Intercom --ext .tsx --ext .ts && eslint playground --ext .tsx --ext .ts",
     "lint:tslint":
       "tslint -c tslint.json --project tsconfig.json 'Intercom/**/*.ts' 'Intercom/**/*.tsx' --exclude 'Intercom/**/*.d.ts' && tslint -c tslint.json --project tsconfig.json 'playground/**/*.ts' 'playground/**/*.tsx' --exclude 'playground/**/*.d.ts'",
-    "test": "jest Intercom --silent",
-    "test:debug": "jest Intercom",
+    "test": "jest --silent",
+    "test:debug": "jest",
     "test:coverage": "yarn test --coverage",
     "test:coveralls":
       "yarn test --coverage --coverageReporters=text-lcov | coveralls",
