@@ -6,25 +6,27 @@
     "type": "git",
     "url": "https://github.com/kvendrik/intercom-react.git"
   },
-  "keywords": ["intercom", "react", "live", "chat", "support"],
+  "keywords": [
+    "intercom",
+    "react",
+    "live",
+    "chat",
+    "support"
+  ],
   "main": "build/Intercom/index.js",
   "types": "build/Intercom/index.d.ts",
   "author": "Koen Vendrik <k.vendrik@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "playground":
-      "webpack-dev-server --hot --inline --config ./playground/webpack.config.js",
+    "playground": "webpack-dev-server --hot --inline --config ./playground/webpack.config.js",
     "lint": "yarn lint:ts && yarn lint:tslint && yarn lint:eslint",
     "lint:ts": "tsc --noEmit",
-    "lint:eslint":
-      "eslint Intercom --ext .tsx --ext .ts && eslint playground --ext .tsx --ext .ts",
-    "lint:tslint":
-      "tslint -c tslint.json --project tsconfig.json 'Intercom/**/*.ts' 'Intercom/**/*.tsx' --exclude 'Intercom/**/*.d.ts' && tslint -c tslint.json --project tsconfig.json 'playground/**/*.ts' 'playground/**/*.tsx' --exclude 'playground/**/*.d.ts'",
+    "lint:eslint": "eslint Intercom --ext .tsx --ext .ts && eslint playground --ext .tsx --ext .ts",
+    "lint:tslint": "tslint -c tslint.json --project tsconfig.json 'Intercom/**/*.ts' 'Intercom/**/*.tsx' --exclude 'Intercom/**/*.d.ts' && tslint -c tslint.json --project tsconfig.json 'playground/**/*.ts' 'playground/**/*.tsx' --exclude 'playground/**/*.d.ts'",
     "test": "jest --silent",
     "test:debug": "jest",
     "test:coverage": "yarn test --coverage",
-    "test:coveralls":
-      "yarn test --coverage --coverageReporters=text-lcov | coveralls",
+    "test:coveralls": "yarn test --coverage --coverageReporters=text-lcov | coveralls",
     "ci": "yarn lint && yarn test:coveralls && yarn test",
     "build": "tsc",
     "clean": "rm -rf build",
@@ -71,7 +73,6 @@
     "ts-jest": "^22.4.6",
     "tslint": "^5.9.1",
     "tslint-react": "^3.5.1",
-    "typed-css-modules": "^0.3.1",
     "typescript": "^2.8.1",
     "typescript-eslint-parser": "^15.0.0",
     "webpack": "^4.6.0",
