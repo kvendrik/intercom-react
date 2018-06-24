@@ -8,7 +8,7 @@ export interface Props {
   onImported(frame: HTMLIFrameElement): void;
 }
 
-export default class ImportIsolatedRemote extends React.Component<
+export default class ImportIsolatedRemote extends React.PureComponent<
   Props,
   never
 > {

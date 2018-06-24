@@ -36,7 +36,7 @@ interface FakeState {
 
 const ANIMATION_DURATION = 300;
 
-export default class Intercom extends React.Component<Props, never> {
+export default class Intercom extends React.PureComponent<Props, never> {
   private frame: HTMLIFrameElement | null = null;
 
   componentWillReceiveProps({
