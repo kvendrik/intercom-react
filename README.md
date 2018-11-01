@@ -48,3 +48,12 @@ Intercom is the support tool of choice for myself and the companies I work for (
 What this means is that if you would get into a situation where you would have to unmount Intercom the three DOM nodes the library mounts (`#intercom-container`, `#intercom-stylesheet` and `#intercom-frame`) will stay mounted, as will the four event listeners the library mounts (2x `beforeunload` and 2x `message`). In other words the existing components are not unmountable.
 
 I wrote this component to create an isolated Intercom component that cleans up after itself when unmounted for a "true" React experience.
+
+## 🏗 Contributing
+
+1.  Make your changes.
+2.  Check your changes in the playground (`yarn playground`).
+3.  Test you changes in/on multiple browsers and devices.
+4.  Add/Alter the appropriate tests.
+5.  Make sure all tests pass (`yarn lint && yarn test`).
+6.  Create a PR.
