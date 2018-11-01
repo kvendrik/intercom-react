@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Portal} from '..';
+import Portal from '../Portal';
 import * as styles from './ImportIsolatedRemote.scss';
 
 export interface Props {
