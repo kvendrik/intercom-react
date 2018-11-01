@@ -34,7 +34,7 @@
   },
   "bundlesize": [
     {
-      "path": "./build/index.js",
+      "path": "build/index.js",
       "maxSize": "3 kB"
     }
   ],
