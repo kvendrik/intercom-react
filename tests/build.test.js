@@ -19,7 +19,7 @@ describe('build', () => {
   });
 
   it('generates valid types', () => {
-    execCommand('yarn run tsc --noEmit build/Intercom/**/*.d.ts');
     expect(fs.existsSync('./build/Intercom/index.d.ts')).toBe(true);
+    execCommand('yarn run tsc --noEmit build/Intercom/**/*.d.ts');
   });
 });
