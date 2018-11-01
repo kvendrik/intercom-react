@@ -1,10 +1,15 @@
 const {execSync} = require('child_process');
+const fs = require('fs');
 
 function execCommand(command) {
   execSync(command, {stdio: 'inherit'});
 }
 
 describe('build', () => {
+  beforeAll(() => {
+    execCommand('yarn clean');
+  });
+
   beforeEach(() => {
     execCommand('yarn build');
   });
@@ -14,6 +19,7 @@ describe('build', () => {
   });
 
   it('generates valid types', () => {
-    execCommand('yarn run tsc --noEmit build/**/*.d.ts');
+    execCommand('yarn run tsc --noEmit build/Intercom/**/*.d.ts');
+    expect(fs.existsSync('./build/Intercom/index.d.ts')).toBe(true);
   });
 });
