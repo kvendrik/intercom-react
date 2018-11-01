@@ -9,7 +9,7 @@ import {
 } from './package.json';
 
 export default {
-  input: 'Intercom/index.ts',
+  input: 'src/index.ts',
   output: [
     {
       file: mainPath,
