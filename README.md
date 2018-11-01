@@ -53,7 +53,8 @@ I wrote this component to create an isolated Intercom component that cleans up a
 
 1.  Make your changes.
 2.  Check your changes in the playground (`yarn playground`).
-3.  Test you changes in/on multiple browsers and devices.
-4.  Add/Alter the appropriate tests.
-5.  Make sure all tests pass (`yarn lint && yarn test`).
-6.  Create a PR.
+3.  Build using `yarn build` and change your playground `Intercom` import path to `../` (this way you import the build instead of the TypeScript files).
+4.  Test you changes in/on multiple browsers and devices.
+5.  Add/Alter the appropriate tests.
+6.  Make sure all tests pass (`yarn lint && yarn test`).
+7.  Create a PR.
