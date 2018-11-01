@@ -6,32 +6,38 @@
     "type": "git",
     "url": "https://github.com/kvendrik/intercom-react.git"
   },
-  "keywords": [
-    "intercom",
-    "react",
-    "live",
-    "chat",
-    "support"
-  ],
+  "keywords": ["intercom", "react", "live", "chat", "support"],
   "main": "build/index.js",
   "module": "build/index.es.js",
   "types": "build/Intercom/index.d.ts",
   "author": "Koen Vendrik <k.vendrik@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "playground": "webpack-dev-server --hot --inline --config ./playground/webpack.config.js",
+    "playground":
+      "webpack-dev-server --hot --inline --config ./playground/webpack.config.js",
     "lint": "yarn lint:ts && yarn lint:tslint && yarn lint:eslint",
     "lint:ts": "tsc --noEmit",
-    "lint:eslint": "eslint Intercom --ext .tsx --ext .ts && eslint playground --ext .tsx --ext .ts",
-    "lint:tslint": "tslint -c tslint.json --project tsconfig.json 'Intercom/**/*.ts' 'Intercom/**/*.tsx' --exclude 'Intercom/**/*.d.ts' && tslint -c tslint.json --project tsconfig.json 'playground/**/*.ts' 'playground/**/*.tsx' --exclude 'playground/**/*.d.ts'",
+    "lint:eslint":
+      "eslint Intercom --ext .tsx --ext .ts && eslint playground --ext .tsx --ext .ts",
+    "lint:tslint":
+      "tslint -c tslint.json --project tsconfig.json 'Intercom/**/*.ts' 'Intercom/**/*.tsx' --exclude 'Intercom/**/*.d.ts' && tslint -c tslint.json --project tsconfig.json 'playground/**/*.ts' 'playground/**/*.tsx' --exclude 'playground/**/*.d.ts'",
     "test": "jest --silent",
+    "test:ci": "yarn test && yarn test:bundlesize && yarn test:coveralls",
+    "test:bundlesize": "bundlesize",
     "test:debug": "jest",
     "test:coverage": "yarn test --coverage",
-    "test:coveralls": "yarn test --coverage --coverageReporters=text-lcov | coveralls",
+    "test:coveralls":
+      "yarn test --coverage --coverageReporters=text-lcov | coveralls",
     "ci": "yarn lint && yarn test:coveralls && yarn test",
     "build": "rollup -c",
     "clean": "rm -rf build"
   },
+  "bundlesize": [
+    {
+      "path": "./build/index.js",
+      "maxSize": "3 kB"
+    }
+  ],
   "devDependencies": {
     "@types/enzyme": "^3.1.9",
     "@types/jest": "^22.2.3",
@@ -49,6 +55,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
+    "bundlesize": "^0.17.0",
     "coveralls": "^3.0.1",
     "css-loader": "^0.28.11",
     "enzyme": "^3.3.0",
