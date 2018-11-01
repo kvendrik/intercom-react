@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Portal from '../Portal';
-import styles from './ImportIsolatedRemote.scss';
+import * as styles from './ImportIsolatedRemote.scss';
 
 export interface Props {
   title: string;

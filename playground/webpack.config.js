@@ -7,7 +7,7 @@ const PLAYGROUND_PATH = __dirname;
 const BASENAME = '/';
 
 module.exports = {
-  mode: process.env.PRODUCTION ? 'production' : 'development',
+  mode: 'development',
   devServer: {
     contentBase: PLAYGROUND_PATH,
     port: 9000,

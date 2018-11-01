@@ -28,6 +28,7 @@ export default {
     }),
     postcss({
       modules: true,
+      namedExports: true,
     }),
   ],
 };
