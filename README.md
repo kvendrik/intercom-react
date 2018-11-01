@@ -27,9 +27,9 @@ yarn add intercom-react
   locationKey="/home"
   onOpen={() => {}}
   onClose={() => {}}
-  onUnreadCountChange={(unreadCount) => {}}
-  onInitialization={(intercom) => {}}
->
+  onUnreadCountChange={unreadCount => {}}
+  onInitialization={intercom => {}}
+/>
 ```
 
 * `appId`: the ID of your app.
