@@ -8,7 +8,7 @@ import {
 } from './utils';
 import {ImportIsolatedRemote} from './components';
 
-import * as styles from './Intercom.scss';
+import styles from './Intercom.scss';
 
 /* eslint-disable camelcase */
 export interface UserData {
