@@ -6,7 +6,11 @@ function execCommand(command) {
 
 describe('build', () => {
   beforeEach(() => {
-    execSync('yarn clean && yarn build');
+    execCommand('yarn build');
+  });
+
+  afterEach(() => {
+    execCommand('yarn clean');
   });
 
   it('generates valid types', () => {
