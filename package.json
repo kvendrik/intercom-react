@@ -22,13 +22,13 @@
     "lint:tslint":
       "tslint -c tslint.json --project tsconfig.json 'Intercom/**/*.ts' 'Intercom/**/*.tsx' --exclude 'Intercom/**/*.d.ts' && tslint -c tslint.json --project tsconfig.json 'playground/**/*.ts' 'playground/**/*.tsx' --exclude 'playground/**/*.d.ts'",
     "test": "jest --silent",
-    "test:ci": "yarn lint && yarn test",
     "test:bundle": "yarn build && bundlesize",
     "test:debug": "jest",
     "test:coverage": "yarn test --coverage",
     "test:coveralls":
       "yarn test --coverage --coverageReporters=text-lcov | coveralls",
-    "ci": "yarn lint && yarn test:coveralls && yarn test",
+    "test:ci":
+      "yarn lint && yarn test && yarn test:coveralls && yarn test:bundle",
     "build": "rollup -c",
     "clean": "rm -rf build"
   },

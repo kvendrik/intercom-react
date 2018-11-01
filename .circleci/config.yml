@@ -35,5 +35,3 @@ jobs:
 
       # run tests!
       - run: yarn test:ci
-      - run: yarn test:bundle
-      - run: yarn test:coveralls
