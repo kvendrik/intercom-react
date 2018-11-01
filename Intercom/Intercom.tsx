@@ -125,7 +125,10 @@ export default class Intercom extends React.PureComponent<Props, never> {
         onClose();
       }
     });
-    intercom('onUnreadCountChange', onUnreadCountChange);
+
+    if (onUnreadCountChange) {
+      intercom('onUnreadCountChange', onUnreadCountChange);
+    }
 
     this.frame = frame;
 
