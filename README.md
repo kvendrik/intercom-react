@@ -18,7 +18,7 @@ yarn add intercom-react
 <Intercom
   open
   appId="fyq3wodw"
-  userData={{
+  user={{
     user_id: '9876',
     email: 'john.doe@example.com',
     created_at: 1234567890,
