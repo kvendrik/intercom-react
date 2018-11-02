@@ -21,7 +21,7 @@
       "eslint src --ext .tsx --ext .ts && eslint playground --ext .tsx --ext .ts",
     "lint:tslint":
       "tslint -c tslint.json --project tsconfig.json 'src/**/*.ts' 'src/**/*.tsx' --exclude 'src/**/*.d.ts' && tslint -c tslint.json --project tsconfig.json 'playground/**/*.ts' 'playground/**/*.tsx' --exclude 'playground/**/*.d.ts'",
-    "test": "jest",
+    "test": "jest --silent",
     "test:bundle": "yarn build && bundlesize",
     "test:debug": "jest",
     "test:coverage": "yarn test --coverage",
