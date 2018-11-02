@@ -11,7 +11,7 @@ import {ImportIsolatedRemote} from './components';
 import * as styles from './Intercom.scss';
 
 /* eslint-disable camelcase */
-export interface UserData {
+export interface User {
   user_id?: string;
   email?: string;
   [key: string]: any;
@@ -20,9 +20,8 @@ export interface UserData {
 
 export interface Props {
   appId: string;
-  userData: UserData;
+  user: User;
   open?: boolean;
-  locationKey?: string;
   onOpen?(): void;
   onClose?(): void;
   onUnreadCountChange?(unreadCount: number): void;
@@ -39,22 +38,15 @@ const ANIMATION_DURATION = 300;
 export default class Intercom extends React.PureComponent<Props, never> {
   private frame: HTMLIFrameElement | null = null;
 
-  componentWillReceiveProps({
-    open: nextOpen,
-    locationKey: nextLocationKey,
-    userData: nextUserData,
-  }: Props) {
-    const {userData, locationKey} = this.props;
+  componentWillReceiveProps({open: nextOpen, user: nextUser}: Props) {
+    const {user} = this.props;
 
     if (nextOpen) {
       this.getIntercom()('show');
     }
 
-    if (
-      nextLocationKey !== locationKey ||
-      !objectEqual(userData, nextUserData)
-    ) {
-      this.getIntercom()('update', nextUserData);
+    if (!objectEqual(user, nextUser)) {
+      this.getIntercom()('update', nextUser);
     }
   }
 
@@ -98,7 +90,7 @@ export default class Intercom extends React.PureComponent<Props, never> {
       onClose,
       appId,
       onUnreadCountChange,
-      userData,
+      user,
       onInitialization,
     } = this.props;
 
@@ -106,7 +98,7 @@ export default class Intercom extends React.PureComponent<Props, never> {
 
     intercom('boot', {
       app_id: appId,
-      ...userData,
+      ...user,
     });
 
     intercom('onShow', () => {

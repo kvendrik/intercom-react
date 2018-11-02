@@ -12,7 +12,7 @@ jest.mock('../utilities', () => ({
 describe('<Intercom />', () => {
   const mockProps = {
     appId: 'fyq3wodw',
-    userData: {
+    user: {
       user_id: '9876',
       email: 'john.doe@example.com',
       created_at: 1234567890,
@@ -54,7 +54,7 @@ describe('<Intercom />', () => {
 
       expect(mockIntercomSpy).toBeCalledWith('boot', {
         app_id: mockProps.appId,
-        ...mockProps.userData,
+        ...mockProps.user,
       });
     });
 
@@ -105,33 +105,20 @@ describe('<Intercom />', () => {
   });
 
   describe('update event', () => {
-    it('updates Intercom when the locationKey changes', async () => {
+    it('updates Intercom when the user data changes', async () => {
       const fakeIframe = document.createElement('iframe');
       const intercom = await mount(
-        <Intercom {...mockProps} locationKey="/home" />,
-      );
-      intercom.find(ImportIsolatedRemote).prop('onImported')(fakeIframe);
-      intercom.setProps({locationKey: '/about'});
-      expect(mockIntercomSpy).toHaveBeenCalledWith(
-        'update',
-        mockProps.userData,
-      );
-    });
-
-    it('updates Intercom when the userData changes', async () => {
-      const fakeIframe = document.createElement('iframe');
-      const intercom = await mount(
-        <Intercom {...mockProps} userData={mockProps.userData} />,
+        <Intercom {...mockProps} user={mockProps.user} />,
       );
       intercom.find(ImportIsolatedRemote).prop('onImported')(fakeIframe);
 
-      const newUserData = {
-        ...mockProps.userData,
+      const newUser = {
+        ...mockProps.user,
         email: 'john2@gmail.com',
       };
 
-      intercom.setProps({userData: newUserData});
-      expect(mockIntercomSpy).toHaveBeenCalledWith('update', newUserData);
+      intercom.setProps({user: newUser});
+      expect(mockIntercomSpy).toHaveBeenCalledWith('update', newUser);
     });
   });
 
