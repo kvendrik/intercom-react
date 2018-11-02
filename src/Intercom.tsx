@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Bind} from 'lodash-decorators';
+import {bind} from 'lodash-decorators';
 import {
   getIntercomFromFrame,
   objectEqual,
@@ -82,7 +82,7 @@ export default class Intercom extends React.PureComponent<Props, never> {
     frame.setAttribute('class', className);
   }
 
-  @Bind()
+  @bind()
   private initializeIntercom(frame: HTMLIFrameElement) {
     const {
       open,
