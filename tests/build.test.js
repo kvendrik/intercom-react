@@ -1,6 +1,5 @@
 const {execSync} = require('child_process');
 const {existsSync} = require('fs');
-const {dirname} = require('path');
 const {
   main: mainBundlePath,
   module: moduleBundlePath,
@@ -32,9 +31,7 @@ describe('build', () => {
     expect(existsSync(moduleBundlePath)).toBe(true);
   });
 
-  it('generates valid types', () => {
+  it('generates types', () => {
     expect(existsSync(typesPath)).toBe(true);
-    const typesDir = dirname(typesPath);
-    execCommand(`yarn run tsc --noEmit ${typesDir}/**/*.d.ts`);
   });
 });
