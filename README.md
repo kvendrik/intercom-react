@@ -32,7 +32,7 @@ yarn add intercom-react
 ```
 
 * `appId`: the ID of your app.
-* `user`: all user data. If this changes during the lifecycle the component will call `intercom('update', userData)`.
+* `user` (optional): all user data. If this changes during the lifecycle the component will call `intercom('update', userData)`.
 * `open` (optional): whether Intercom is showing or not.
 * `onOpen` (optional): called when intercom opens.
 * `onClose` (optional): called when intercom closes.

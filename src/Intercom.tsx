@@ -20,7 +20,7 @@ export interface User {
 
 export interface Props {
   appId: string;
-  user: User;
+  user?: User;
   open?: boolean;
   onOpen?(): void;
   onClose?(): void;
@@ -45,7 +45,7 @@ export default class Intercom extends React.PureComponent<Props, never> {
       this.getIntercom()('show');
     }
 
-    if (!objectEqual(user, nextUser)) {
+    if (nextUser && !objectEqual(user || {}, nextUser)) {
       this.getIntercom()('update', nextUser);
     }
   }
