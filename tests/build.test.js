@@ -1,5 +1,8 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const {execSync} = require('child_process');
 const {existsSync} = require('fs');
+const {sync: globSync} = require('glob');
+const {dirname} = require('path');
 const {
   main: mainBundlePath,
   module: moduleBundlePath,
@@ -31,7 +34,10 @@ describe('build', () => {
     expect(existsSync(moduleBundlePath)).toBe(true);
   });
 
-  it('generates types', () => {
+  it('generates valid types', () => {
     expect(existsSync(typesPath)).toBe(true);
+    const typesDir = dirname(typesPath);
+    const files = globSync(`${typesDir}/**/*.d.ts`);
+    execCommand(`yarn run tsc --noEmit ${files.join(' ')}`);
   });
 });
