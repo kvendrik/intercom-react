@@ -4,8 +4,8 @@ import {ImportIsolatedRemote} from '../components';
 import Intercom from '..';
 
 const mockIntercomSpy = jest.fn();
-jest.mock('../utils', () => ({
-  ...require.requireActual('../utils'),
+jest.mock('../utilities', () => ({
+  ...require.requireActual('../utilities'),
   getIntercomFromFrame: () => mockIntercomSpy,
 }));
 

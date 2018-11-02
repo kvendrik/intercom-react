@@ -5,7 +5,7 @@ import {
   objectEqual,
   classNames,
   IntercomType,
-} from './utils';
+} from './utilities';
 import {ImportIsolatedRemote} from './components';
 
 import * as styles from './Intercom.scss';
