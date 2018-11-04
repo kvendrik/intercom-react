@@ -6,8 +6,11 @@ import {
   classNames,
   IntercomType,
 } from './utilities';
-import {ImportIsolatedRemote} from './components';
-
+import {
+  ImportIsolatedRemote,
+  BorderlessFrameListener,
+  BorderlessFrameSizes,
+} from './components';
 import * as styles from './Intercom.scss';
 
 /* eslint-disable camelcase */
@@ -29,14 +32,21 @@ export interface Props {
 }
 
 interface FakeState {
-  open: boolean;
-  animating: boolean;
+  open?: boolean;
+  animating?: boolean;
+  borderlessFrameSizes?: BorderlessFrameSizes | null;
+}
+
+interface State {
+  frame: HTMLIFrameElement | null;
 }
 
 const ANIMATION_DURATION = 300;
 
-export default class Intercom extends React.PureComponent<Props, never> {
-  private frame: HTMLIFrameElement | null = null;
+export default class Intercom extends React.PureComponent<Props, State> {
+  state: State = {
+    frame: null,
+  };
 
   componentWillReceiveProps({open: nextOpen, user: nextUser}: Props) {
     const {user} = this.props;
@@ -56,21 +66,44 @@ export default class Intercom extends React.PureComponent<Props, never> {
 
   render() {
     const {appId} = this.props;
+    const {frame} = this.state;
     const importUrl = `https://widget.intercom.io/widget/${appId}`;
-    return (
-      <ImportIsolatedRemote
-        title="intercom"
-        source={importUrl}
-        onImported={this.initializeIntercom}
+
+    const borderlessFrameListener = frame && (
+      <BorderlessFrameListener
+        frame={frame}
+        onSizesUpdate={this.handleBorderlessFrameSizesUpdate}
       />
+    );
+
+    return (
+      <>
+        <ImportIsolatedRemote
+          title="intercom"
+          source={importUrl}
+          onImported={this.initializeIntercom}
+        />
+        {borderlessFrameListener}
+      </>
     );
   }
 
-  private updateState({open, animating}: FakeState) {
-    const {frame} = this;
+  private updateState({
+    open = false,
+    animating = false,
+    borderlessFrameSizes = null,
+  }: FakeState) {
+    const {frame} = this.state;
 
     if (!frame) {
       return;
+    }
+
+    if (borderlessFrameSizes) {
+      const {width, height} = borderlessFrameSizes;
+      frame.setAttribute('style', `width: ${width}; height: ${height};`);
+    } else {
+      frame.removeAttribute('style');
     }
 
     const className = classNames(
@@ -95,6 +128,7 @@ export default class Intercom extends React.PureComponent<Props, never> {
     } = this.props;
 
     const intercom = getIntercomFromFrame(frame);
+    this.setState({frame});
 
     intercom('boot', {
       app_id: appId,
@@ -107,6 +141,7 @@ export default class Intercom extends React.PureComponent<Props, never> {
         onOpen();
       }
     });
+
     intercom('onHide', () => {
       this.updateState({open: true, animating: true});
       setTimeout(
@@ -122,8 +157,6 @@ export default class Intercom extends React.PureComponent<Props, never> {
       intercom('onUnreadCountChange', onUnreadCountChange);
     }
 
-    this.frame = frame;
-
     if (open) {
       intercom('show');
     } else {
@@ -136,10 +169,17 @@ export default class Intercom extends React.PureComponent<Props, never> {
   }
 
   private getIntercom() {
-    const {frame} = this;
+    const {frame} = this.state;
     if (!frame) {
       return () => {};
     }
     return getIntercomFromFrame(frame);
+  }
+
+  @bind()
+  private handleBorderlessFrameSizesUpdate(
+    borderlessFrameSizes: BorderlessFrameSizes,
+  ) {
+    this.updateState({borderlessFrameSizes});
   }
 }

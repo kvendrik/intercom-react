@@ -9,6 +9,7 @@
     "react/jsx-filename-extension": "off",
     "import/no-unresolved": "off",
     "import/extensions": "off",
+    "import/prefer-default-export": "off",
     "jsx-a11y/anchor-is-valid": "off",
     "react/no-unescaped-entities": "off",
     "react/sort-comp": "off",
@@ -20,7 +21,9 @@
         "devDependencies": ["**/*.test.tsx"]
       }
     ],
-    "no-use-before-define": "off"
+    "no-use-before-define": "off",
+    "no-restricted-syntax": "off",
+    "no-continue": "off"
   },
   "env": {
     "browser": true,
