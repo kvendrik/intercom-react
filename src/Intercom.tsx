@@ -5,6 +5,7 @@ import {
   objectEqual,
   classNames,
   IntercomType,
+  injectCustomStyles,
 } from './utilities';
 import {
   ImportIsolatedRemote,
@@ -25,6 +26,7 @@ export interface Props {
   appId: string;
   user?: User;
   open?: boolean;
+  launcher?: boolean;
   onOpen?(): void;
   onClose?(): void;
   onUnreadCountChange?(unreadCount: number): void;
@@ -44,6 +46,10 @@ interface State {
 const ANIMATION_DURATION = 300;
 
 export default class Intercom extends React.PureComponent<Props, State> {
+  static defaultProps: Partial<Props> = {
+    launcher: true,
+  };
+
   state: State = {
     frame: null,
   };
@@ -65,7 +71,7 @@ export default class Intercom extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const {appId} = this.props;
+    const {appId, launcher} = this.props;
     const {frame} = this.state;
     const importUrl = `https://widget.intercom.io/widget/${appId}`;
 
@@ -73,6 +79,7 @@ export default class Intercom extends React.PureComponent<Props, State> {
       <BorderlessFrameListener
         frame={frame}
         onSizesUpdate={this.handleBorderlessFrameSizesUpdate}
+        launcher={Boolean(launcher)}
       />
     );
 
@@ -93,6 +100,7 @@ export default class Intercom extends React.PureComponent<Props, State> {
     animating = false,
     borderlessFrameSizes = null,
   }: FakeState) {
+    const {launcher} = this.props;
     const {frame} = this.state;
 
     if (!frame) {
@@ -108,6 +116,7 @@ export default class Intercom extends React.PureComponent<Props, State> {
 
     const className = classNames(
       styles.Intercom,
+      launcher && styles['Intercom-HasLauncher'],
       open && styles.IntercomOpen,
       animating && styles.IntercomAnimating,
     );
@@ -162,6 +171,15 @@ export default class Intercom extends React.PureComponent<Props, State> {
     } else {
       this.updateState({open: false, animating: false});
     }
+
+    injectCustomStyles(
+      frame,
+      `
+      .intercom-launcher-frame-shadow {
+        box-shadow: none !important;
+      }
+    `,
+    );
 
     if (onInitialization) {
       onInitialization(intercom);
