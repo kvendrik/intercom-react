@@ -12,6 +12,8 @@ An [Intercom](http://intercom.com/) component for React that truly encapsulates 
 yarn add intercom-react
 ```
 
+_Before you install the library make sure to read the [notes on reliability](#️-a-few-notes-on-reliability)._
+
 ## Setup
 
 ```tsx
@@ -52,7 +54,7 @@ I wrote this component to create an isolated Intercom component that cleans up a
 
 The main purpose of this component is to provide a way for you to intigrate Intercom into your project without having it live in the global scope and it therefor being unmountable.
 
-Getting that to work took quite a bit of [reverse engineering](https://github.com/kvendrik/intercom-react/pull/15) which means that **things can stop working in future versions of the Intercom library**. I would therefor recommend that:
+Getting that to work took quite a bit of [reverse engineering](https://github.com/kvendrik/intercom-react/pull/15) which means that **things might stop working in future versions of the Intercom library**. I would therefor recommend that:
 
 1.  You only use this library if you have a solid reason for needing Intercom to be unmountable. If not I recommend you use a solution like [`react-intercom`](https://github.com/nhagen/react-intercom) which simply mounts Intercom to the global scope.
 2.  If you do decide to use this library make sure you have a solid bug tracking library like [Bugsnag](https://www.bugsnag.com/) or [Sentry](https://sentry.io) in place so you get alerted if Intercom does stop working.
