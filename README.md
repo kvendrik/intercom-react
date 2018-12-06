@@ -1,4 +1,4 @@
-# [WIP] intercom-react
+# intercom-react
 
 [![CircleCI](https://circleci.com/gh/kvendrik/intercom-react.svg?style=svg)](https://circleci.com/gh/kvendrik/intercom-react)
 [![Coverage Status](https://coveralls.io/repos/github/kvendrik/intercom-react/badge.svg?branch=master)](https://coveralls.io/github/kvendrik/intercom-react?branch=master)
