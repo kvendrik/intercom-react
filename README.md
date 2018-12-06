@@ -2,6 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/kvendrik/intercom-react.svg?style=svg)](https://circleci.com/gh/kvendrik/intercom-react)
 [![Coverage Status](https://coveralls.io/repos/github/kvendrik/intercom-react/badge.svg?branch=master)](https://coveralls.io/github/kvendrik/intercom-react?branch=master)
+![Bundle Size](https://img.shields.io/badge/gzip%20size-3.42%20kB-44cc11.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 An [Intercom](http://intercom.com/) component for React that truly encapsulates the library and makes it work like a "real" React component.
