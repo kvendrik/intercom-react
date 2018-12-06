@@ -29,14 +29,20 @@ export default class ImportIsolatedRemote extends React.PureComponent<
     script.src = source;
     this.scriptNode = script;
 
-    frame.onload = () => {
+    function loadScript() {
       contentWindow.document.body.appendChild(script);
-      script.onload = () => onImported(frame);
-    };
+      script.onload = () => onImported(frame!);
+    }
 
-    // some browsers don't trigger iframe.onload (like Safari 11.1.1)
-    // this immediate page refresh fixes that
-    contentWindow.location.reload();
+    // fix for FF which refreshes the content of the iframe
+    // when done loading and therefor doesn't support
+    // immediately loading the script
+    if ((frame.contentDocument as any).readyState === 'uninitialized') {
+      frame.onload = loadScript;
+      return;
+    }
+
+    loadScript();
   }
 
   componentWillUnmount() {
