@@ -39,13 +39,13 @@ interface FakeState {
   borderlessFrameSizes?: BorderlessFrameSizes | null;
 }
 
-interface State {
+export interface State {
   frame: HTMLIFrameElement | null;
 }
 
 const ANIMATION_DURATION = 300;
 
-export default class Intercom extends React.PureComponent<Props, State> {
+class Intercom extends React.PureComponent<Props, State> {
   static defaultProps: Partial<Props> = {
     launcher: true,
   };
@@ -116,7 +116,7 @@ export default class Intercom extends React.PureComponent<Props, State> {
 
     const className = classNames(
       styles.Intercom,
-      launcher && styles['Intercom-HasLauncher'],
+      launcher && styles.IntercomHasLauncher,
       open && styles.IntercomOpen,
       animating && styles.IntercomAnimating,
     );
@@ -201,3 +201,5 @@ export default class Intercom extends React.PureComponent<Props, State> {
     this.updateState({borderlessFrameSizes});
   }
 }
+
+export default Intercom;

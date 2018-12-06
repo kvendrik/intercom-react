@@ -6,31 +6,30 @@
     "type": "git",
     "url": "https://github.com/kvendrik/intercom-react.git"
   },
-  "keywords": [
-    "intercom",
-    "react",
-    "live",
-    "chat",
-    "support"
-  ],
+  "keywords": ["intercom", "react", "live", "chat", "support"],
   "main": "build/index.js",
   "module": "build/index.es.js",
   "types": "build/types/index.d.ts",
   "author": "Koen Vendrik <k.vendrik@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "playground": "webpack-dev-server --hot --inline --config ./playground/webpack.config.js",
+    "playground":
+      "webpack-dev-server --hot --inline --config ./playground/webpack.config.js",
     "lint": "yarn lint:ts && yarn lint:tslint && yarn lint:eslint",
     "lint:ts": "tsc --noEmit",
-    "lint:eslint": "eslint src --ext .tsx --ext .ts && eslint playground --ext .tsx --ext .ts",
-    "lint:tslint": "tslint -c tslint.json --project tsconfig.json 'src/**/*.ts' 'src/**/*.tsx' --exclude 'src/**/*.d.ts' && tslint -c tslint.json --project tsconfig.json 'playground/**/*.ts' 'playground/**/*.tsx' --exclude 'playground/**/*.d.ts'",
+    "lint:eslint":
+      "eslint src --ext .tsx --ext .ts && eslint playground --ext .tsx --ext .ts",
+    "lint:tslint":
+      "tslint -c tslint.json --project tsconfig.json 'src/**/*.ts' 'src/**/*.tsx' --exclude 'src/**/*.d.ts' && tslint -c tslint.json --project tsconfig.json 'playground/**/*.ts' 'playground/**/*.tsx' --exclude 'playground/**/*.d.ts'",
     "test": "jest --silent",
     "test:bundle": "yarn build && bundlesize",
     "test:debug": "jest",
     "test:coverage": "yarn test --coverage",
-    "test:coveralls": "yarn test --coverage --coverageReporters=text-lcov | coveralls",
-    "test:ci": "yarn lint && yarn test && yarn test:coveralls && yarn test:bundle",
-    "build": "rollup -c && mv build/src build/types",
+    "test:coveralls":
+      "yarn test --coverage --coverageReporters=text-lcov | coveralls",
+    "test:ci":
+      "yarn lint && yarn test && yarn test:coveralls && yarn test:bundle",
+    "build": "yarn clean && rollup -c && mv build/src build/types",
     "clean": "rm -rf build"
   },
   "bundlesize": [
