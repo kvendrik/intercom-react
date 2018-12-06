@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {shallow} from 'enzyme';
 import {trigger} from '@shopify/enzyme-utilities';
+import {noop} from '@shopify/javascript-utilities';
 import {ImportIsolatedRemote, BorderlessFrameListener} from '../components';
 import Intercom from '..';
 
@@ -109,7 +110,7 @@ describe('<Intercom />', () => {
     it('resets frame styles when updated to a falsy value', () => {
       const removeAttributeSpy = jest.fn();
       const fakeIframe = {
-        setAttribute: jest.fn(),
+        setAttribute: noop,
         removeAttribute: removeAttributeSpy,
       };
       const intercom = shallow(<Intercom {...mockProps} />);
@@ -247,7 +248,7 @@ describe('<Intercom />', () => {
       const setAttributeSpy = jest.fn();
       const fakeIframe = {
         setAttribute: setAttributeSpy,
-        removeAttribute: jest.fn(),
+        removeAttribute: noop,
       };
       const newSizes = {
         width: '200px',
@@ -281,7 +282,7 @@ describe('<Intercom />', () => {
     it('resets frame styles when opened', () => {
       const removeAttributeSpy = jest.fn();
       const fakeIframe = {
-        setAttribute: jest.fn(),
+        setAttribute: noop,
         removeAttribute: removeAttributeSpy,
       };
       const intercom = shallow(<Intercom {...mockProps} />);
@@ -296,7 +297,7 @@ describe('<Intercom />', () => {
     it('resets frame styles when closed', () => {
       const removeAttributeSpy = jest.fn();
       const fakeIframe = {
-        setAttribute: jest.fn(),
+        setAttribute: noop,
         removeAttribute: removeAttributeSpy,
       };
       const intercom = shallow(<Intercom {...mockProps} />);
@@ -312,7 +313,7 @@ describe('<Intercom />', () => {
       const setAttributeSpy = jest.fn();
       const fakeIframe = {
         setAttribute: setAttributeSpy,
-        removeAttribute: jest.fn(),
+        removeAttribute: noop,
       };
       const intercom = shallow(<Intercom {...mockProps} />);
 
@@ -327,7 +328,7 @@ describe('<Intercom />', () => {
       const setAttributeSpy = jest.fn();
       const fakeIframe = {
         setAttribute: setAttributeSpy,
-        removeAttribute: jest.fn(),
+        removeAttribute: noop,
       };
       const intercom = shallow(<Intercom {...mockProps} />);
 

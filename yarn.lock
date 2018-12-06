@@ -44,7 +44,7 @@
     "@shopify/javascript-utilities" "^2.1.0"
     lodash "^4.17.5"
 
-"@shopify/javascript-utilities@^2.1.0":
+"@shopify/javascript-utilities@^2.1.0", "@shopify/javascript-utilities@^2.3.0":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@shopify/javascript-utilities/-/javascript-utilities-2.3.0.tgz#11faaad9f4cdf8b3bc3d4f6e6b0d6b0bd9b3a8fb"
   integrity sha512-4R25YB+XseiPVtK6wr/GaRiWV6fJmdEsqfqG4pMLuwWFQ42co3fOg/p1IdAJYw2bvQ6L4Kv0LL1QRQd79LLc0w==
