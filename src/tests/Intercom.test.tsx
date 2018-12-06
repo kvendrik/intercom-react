@@ -307,6 +307,36 @@ describe('<Intercom />', () => {
       callback();
       expect(removeAttributeSpy).toHaveBeenCalledWith('style');
     });
+
+    it('receives updated class when opened', () => {
+      const setAttributeSpy = jest.fn();
+      const fakeIframe = {
+        setAttribute: setAttributeSpy,
+        removeAttribute: jest.fn(),
+      };
+      const intercom = shallow(<Intercom {...mockProps} />);
+
+      trigger(intercom.find(ImportIsolatedRemote), 'onImported', fakeIframe);
+
+      const callback = getCallbackForEvent('onShow', mockIntercomSpy);
+      callback();
+      expect(setAttributeSpy).toHaveBeenCalledWith('class', expect.anything());
+    });
+
+    it('receives updated class when closed', () => {
+      const setAttributeSpy = jest.fn();
+      const fakeIframe = {
+        setAttribute: setAttributeSpy,
+        removeAttribute: jest.fn(),
+      };
+      const intercom = shallow(<Intercom {...mockProps} />);
+
+      trigger(intercom.find(ImportIsolatedRemote), 'onImported', fakeIframe);
+
+      const callback = getCallbackForEvent('onHide', mockIntercomSpy);
+      callback();
+      expect(setAttributeSpy).toHaveBeenCalledWith('class', expect.anything());
+    });
   });
 });
 
