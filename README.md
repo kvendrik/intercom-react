@@ -38,6 +38,7 @@ yarn add intercom-react
 * `onClose` (optional): called when intercom closes.
 * `onUnreadCountChange` (optional): called when the unread count changes.
 * `onInitialization` (optional): called when intercom has initialized. The component passes the `intercom` method to this callback in case you require advanced usage like [emitting events](https://developers.intercom.com/docs/intercom-javascript#section-intercomtrackevent) or [pre-populating content](https://developers.intercom.com/docs/intercom-javascript#section-intercomshownewmessage).
+* `launcher` (optional): whether a launcher button should be shown. Defaults to `true`.
 
 ## How is this different?
 
@@ -46,6 +47,17 @@ Intercom is the support tool of choice for myself and the companies I work for (
 What this means is that if you would get into a situation where you would have to unmount Intercom the three DOM nodes the library mounts (`#intercom-container`, `#intercom-stylesheet` and `#intercom-frame`) will stay mounted, as will the four event listeners the library mounts (2x `beforeunload` and 2x `message`). In other words the existing components are not unmountable.
 
 I wrote this component to create an isolated Intercom component that cleans up after itself when unmounted for a "true" React experience.
+
+## A few notes on reliability
+
+The main purpose of this component is to provide a way for you to intigrate Intercom into your project without having it live in the global scope and it therefor being unmountable.
+
+Getting that to work took quite a bit of [reverse engineering](https://github.com/kvendrik/intercom-react/pull/15) which means that **things can stop working in future versions of the Intercom library**. I would therefor recommend that:
+
+1.  You only use this library if you have a solid reason for needing Intercom to be unmountable. If not I recommend you use a solution like [`react-intercom`](https://github.com/nhagen/react-intercom) which simply mounts Intercom to the global scope.
+2.  If you do decide to use this library make sure you have a solid bug tracking library like [Bugsnag](https://www.bugsnag.com/) or [Sentry](https://sentry.io) in place so you get alerted if Intercom does stop working.
+
+Having that said I appriate your intrest in the library and look forward to hearing your experience with it 🙌 .
 
 ## 🏗 Contributing
 
