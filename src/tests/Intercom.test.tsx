@@ -1,9 +1,10 @@
 import * as React from 'react';
 import {shallow} from 'enzyme';
 import {trigger} from '@shopify/enzyme-utilities';
-import {noop} from '@shopify/javascript-utilities';
+// tslint:disable-next-line no-submodule-imports
+import {noop} from '@shopify/javascript-utilities/other';
 import {ImportIsolatedRemote, BorderlessFrameListener} from '../components';
-import Intercom from '..';
+import Intercom from '../Intercom';
 
 const mockIntercomSpy = jest.fn(frame => frame);
 jest.mock('../utilities', () => ({

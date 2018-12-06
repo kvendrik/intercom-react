@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {mount, shallow} from 'enzyme';
-import ImportIsolatedRemote from '..';
+import ImportIsolatedRemote from '../ImportIsolatedRemote';
 
 describe('<ImportIsolatedRemote />', () => {
   const mockProps = {

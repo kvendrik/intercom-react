@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {shallow} from 'enzyme';
 import {createPortal} from 'react-dom';
-import Portal from '..';
+import Portal from '../Portal';
 
 jest.mock('react-dom', () => ({
   ...require.requireActual('react-dom'),
