@@ -88,6 +88,8 @@ class BorderlessFrameListener extends React.Component<Props, never> {
           width: `${finalWidth}px`,
           height: finalHeight,
         });
+
+        return;
       }
     });
 
