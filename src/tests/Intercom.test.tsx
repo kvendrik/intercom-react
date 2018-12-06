@@ -105,6 +105,40 @@ describe('<Intercom />', () => {
       intercom.setProps({open: true});
       expect(mockIntercomSpy).not.toHaveBeenCalledWith('show');
     });
+
+    it('resets frame styles when updated to a falsy value', () => {
+      const removeAttributeSpy = jest.fn();
+      const fakeIframe = {
+        setAttribute: jest.fn(),
+        removeAttribute: removeAttributeSpy,
+      };
+      const intercom = shallow(<Intercom {...mockProps} />);
+
+      trigger(intercom.find(ImportIsolatedRemote), 'onImported', fakeIframe);
+
+      intercom.setProps({open: false});
+      expect(removeAttributeSpy).toHaveBeenCalledWith('style');
+    });
+  });
+
+  describe('launcher', () => {
+    it('gets passed into the borderless frame', () => {
+      const fakeIframe = document.createElement('iframe');
+      const intercom = shallow(<Intercom {...mockProps} launcher={false} />);
+      trigger(intercom.find(ImportIsolatedRemote), 'onImported', fakeIframe);
+      expect(intercom.find(BorderlessFrameListener).prop('launcher')).toBe(
+        false,
+      );
+    });
+
+    it('is true by default', () => {
+      const fakeIframe = document.createElement('iframe');
+      const intercom = shallow(<Intercom {...mockProps} />);
+      trigger(intercom.find(ImportIsolatedRemote), 'onImported', fakeIframe);
+      expect(intercom.find(BorderlessFrameListener).prop('launcher')).toBe(
+        true,
+      );
+    });
   });
 
   describe('onOpen()', () => {
@@ -208,6 +242,29 @@ describe('<Intercom />', () => {
         fakeIframe,
       );
     });
+
+    it('updates the frame sizes when the content sizes update', () => {
+      const setAttributeSpy = jest.fn();
+      const fakeIframe = {
+        setAttribute: setAttributeSpy,
+        removeAttribute: jest.fn(),
+      };
+      const newSizes = {
+        width: '200px',
+        height: '200px',
+      };
+      const intercom = shallow(<Intercom {...mockProps} />);
+      trigger(intercom.find(ImportIsolatedRemote), 'onImported', fakeIframe);
+      trigger(
+        intercom.find(BorderlessFrameListener),
+        'onSizesUpdate',
+        newSizes,
+      );
+      expect(setAttributeSpy).toHaveBeenCalledWith(
+        'style',
+        'width: 200px; height: 200px;',
+      );
+    });
   });
 
   describe('shutdown event', () => {
@@ -217,6 +274,38 @@ describe('<Intercom />', () => {
       trigger(intercom.find(ImportIsolatedRemote), 'onImported', fakeIframe);
       intercom.unmount();
       expect(mockIntercomSpy).toHaveBeenCalledWith('shutdown');
+    });
+  });
+
+  describe('<iframe />', () => {
+    it('resets frame styles when opened', () => {
+      const removeAttributeSpy = jest.fn();
+      const fakeIframe = {
+        setAttribute: jest.fn(),
+        removeAttribute: removeAttributeSpy,
+      };
+      const intercom = shallow(<Intercom {...mockProps} />);
+
+      trigger(intercom.find(ImportIsolatedRemote), 'onImported', fakeIframe);
+
+      const callback = getCallbackForEvent('onShow', mockIntercomSpy);
+      callback();
+      expect(removeAttributeSpy).toHaveBeenCalledWith('style');
+    });
+
+    it('resets frame styles when closed', () => {
+      const removeAttributeSpy = jest.fn();
+      const fakeIframe = {
+        setAttribute: jest.fn(),
+        removeAttribute: removeAttributeSpy,
+      };
+      const intercom = shallow(<Intercom {...mockProps} />);
+
+      trigger(intercom.find(ImportIsolatedRemote), 'onImported', fakeIframe);
+
+      const callback = getCallbackForEvent('onHide', mockIntercomSpy);
+      callback();
+      expect(removeAttributeSpy).toHaveBeenCalledWith('style');
     });
   });
 });
