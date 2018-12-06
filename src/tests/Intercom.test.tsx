@@ -1,8 +1,6 @@
 import * as React from 'react';
 import {shallow} from 'enzyme';
 import {trigger} from '@shopify/enzyme-utilities';
-// tslint:disable-next-line no-submodule-imports
-import {noop} from '@shopify/javascript-utilities/other';
 import {ImportIsolatedRemote, BorderlessFrameListener} from '../components';
 import Intercom from '../Intercom';
 
@@ -14,6 +12,8 @@ jest.mock('../utilities', () => ({
     return null;
   },
 }));
+
+function noop() {}
 
 describe('<Intercom />', () => {
   const mockProps = {
