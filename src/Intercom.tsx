@@ -172,14 +172,7 @@ class Intercom extends React.PureComponent<Props, State> {
       this.updateState({open: false, animating: false});
     }
 
-    injectCustomStyles(
-      frame,
-      `
-      .intercom-launcher-frame-shadow {
-        box-shadow: none !important;
-      }
-    `,
-    );
+    this.injectCustomLauncherStyles();
 
     if (onInitialization) {
       onInitialization(intercom);
@@ -192,6 +185,18 @@ class Intercom extends React.PureComponent<Props, State> {
       return () => {};
     }
     return getIntercomFromFrame(frame);
+  }
+
+  private injectCustomLauncherStyles() {
+    const {frame} = this.state;
+    injectCustomStyles(
+      frame!,
+      `
+      .intercom-launcher-frame-shadow {
+        box-shadow: none !important;
+      }
+    `,
+    );
   }
 
   @bind()

@@ -1,12 +1,16 @@
 import * as React from 'react';
-import {mount} from 'enzyme';
-import {ImportIsolatedRemote} from '../components';
+import {shallow} from 'enzyme';
+import {trigger} from '@shopify/enzyme-utilities';
+import {ImportIsolatedRemote, BorderlessFrameListener} from '../components';
 import Intercom from '..';
 
-const mockIntercomSpy = jest.fn();
+const mockIntercomSpy = jest.fn(frame => frame);
 jest.mock('../utilities', () => ({
   ...require.requireActual('../utilities'),
   getIntercomFromFrame: () => mockIntercomSpy,
+  injectCustomStyles() {
+    return null;
+  },
 }));
 
 describe('<Intercom />', () => {
@@ -24,93 +28,51 @@ describe('<Intercom />', () => {
     mockIntercomSpy.mockReset();
   });
 
-  describe('<ImportIsolatedRemote />', () => {
-    it('renders', async () => {
-      const intercom = await mount(<Intercom {...mockProps} />);
-      expect(intercom.find(ImportIsolatedRemote).exists()).toBeTruthy();
-    });
-
-    it('loads the Intercom script', async () => {
-      const node = await mount(<Intercom {...mockProps} />);
+  describe('appId', () => {
+    it('is used to construct the script url', () => {
+      const node = shallow(<Intercom {...mockProps} />);
       expect(node.find(ImportIsolatedRemote).prop('source')).toBe(
         `https://widget.intercom.io/widget/${mockProps.appId}`,
       );
     });
 
-    it('sets an onImported callback', async () => {
-      const intercom = await mount(<Intercom {...mockProps} />);
-      expect(
-        intercom.find(ImportIsolatedRemote).prop('onImported'),
-      ).toBeInstanceOf(Function);
-    });
-  });
-
-  describe('initialize', async () => {
-    it('intializes Intercom with the given settings', async () => {
+    it('intializes Intercom with the given appId', async () => {
       const fakeIframe = document.createElement('iframe');
-      const intercom = await mount(<Intercom {...mockProps} />);
+      const intercom = shallow(<Intercom {...mockProps} />);
 
-      intercom.find(ImportIsolatedRemote).prop('onImported')(fakeIframe);
+      trigger(intercom.find(ImportIsolatedRemote), 'onImported', fakeIframe);
 
-      expect(mockIntercomSpy).toBeCalledWith('boot', {
-        app_id: mockProps.appId,
-        ...mockProps.user,
-      });
-    });
-
-    it('calls onInitialization', async () => {
-      const fakeIframe = document.createElement('iframe');
-      const onInitializationSpy = jest.fn();
-      const intercom = await mount(
-        <Intercom {...mockProps} onInitialization={onInitializationSpy} />,
+      expect(mockIntercomSpy).toBeCalledWith(
+        'boot',
+        expect.objectContaining({
+          app_id: mockProps.appId,
+        }),
       );
-
-      intercom.find(ImportIsolatedRemote).prop('onImported')(fakeIframe);
-
-      expect(onInitializationSpy).toHaveBeenCalledWith(mockIntercomSpy);
     });
   });
 
-  describe('shutdown event', async () => {
-    it('calls shutdown when component unmounts', async () => {
+  describe('user', () => {
+    it('intializes Intercom with the given user', async () => {
       const fakeIframe = document.createElement('iframe');
-      const intercom = await mount(<Intercom {...mockProps} />);
-      intercom.find(ImportIsolatedRemote).prop('onImported')(fakeIframe);
-      intercom.unmount();
-      expect(mockIntercomSpy).toHaveBeenCalledWith('shutdown');
-    });
-  });
+      const intercom = shallow(<Intercom {...mockProps} />);
 
-  describe('show event', () => {
-    it('calls Intercom with show command if initialized with open', async () => {
-      const fakeIframe = document.createElement('iframe');
-      const intercom = await mount(<Intercom {...mockProps} open />);
-      intercom.find(ImportIsolatedRemote).prop('onImported')(fakeIframe);
-      expect(mockIntercomSpy).toHaveBeenCalledWith('show');
+      trigger(intercom.find(ImportIsolatedRemote), 'onImported', fakeIframe);
+
+      expect(mockIntercomSpy).toBeCalledWith(
+        'boot',
+        expect.objectContaining({
+          ...mockProps.user,
+        }),
+      );
     });
 
-    it('calls Intercom with show command if open prop changes', async () => {
+    it('updates Intercom when the user data changes', () => {
       const fakeIframe = document.createElement('iframe');
-      const intercom = await mount(<Intercom {...mockProps} />);
-      intercom.find(ImportIsolatedRemote).prop('onImported')(fakeIframe);
-      intercom.setProps({open: true});
-      expect(mockIntercomSpy).toHaveBeenCalledWith('show');
-    });
-
-    it('does not attempt to open intercom if not initialized', async () => {
-      const intercom = await mount(<Intercom {...mockProps} />);
-      intercom.setProps({open: true});
-      expect(mockIntercomSpy).not.toHaveBeenCalledWith('show');
-    });
-  });
-
-  describe('update event', () => {
-    it('updates Intercom when the user data changes', async () => {
-      const fakeIframe = document.createElement('iframe');
-      const intercom = await mount(
+      const intercom = shallow(
         <Intercom {...mockProps} user={mockProps.user} />,
       );
-      intercom.find(ImportIsolatedRemote).prop('onImported')(fakeIframe);
+
+      trigger(intercom.find(ImportIsolatedRemote), 'onImported', fakeIframe);
 
       const newUser = {
         ...mockProps.user,
@@ -122,46 +84,71 @@ describe('<Intercom />', () => {
     });
   });
 
-  describe('event callbacks', () => {
-    it('triggers onOpen when Intercom opens', async () => {
+  describe('open', () => {
+    it('calls Intercom with show command if initialized with open', () => {
+      const fakeIframe = document.createElement('iframe');
+      const intercom = shallow(<Intercom {...mockProps} open />);
+      trigger(intercom.find(ImportIsolatedRemote), 'onImported', fakeIframe);
+      expect(mockIntercomSpy).toHaveBeenCalledWith('show');
+    });
+
+    it('calls Intercom with show command if open prop changes', () => {
+      const fakeIframe = document.createElement('iframe');
+      const intercom = shallow(<Intercom {...mockProps} />);
+      trigger(intercom.find(ImportIsolatedRemote), 'onImported', fakeIframe);
+      intercom.setProps({open: true});
+      expect(mockIntercomSpy).toHaveBeenCalledWith('show');
+    });
+
+    it('does not attempt to open intercom if not initialized', () => {
+      const intercom = shallow(<Intercom {...mockProps} />);
+      intercom.setProps({open: true});
+      expect(mockIntercomSpy).not.toHaveBeenCalledWith('show');
+    });
+  });
+
+  describe('onOpen()', () => {
+    it('triggers when Intercom opens', () => {
       const onOpenSpy = jest.fn();
       const fakeIframe = document.createElement('iframe');
-      const intercom = await mount(
-        <Intercom {...mockProps} onOpen={onOpenSpy} />,
-      );
+      const intercom = shallow(<Intercom {...mockProps} onOpen={onOpenSpy} />);
 
-      intercom.find(ImportIsolatedRemote).prop('onImported')(fakeIframe);
+      trigger(intercom.find(ImportIsolatedRemote), 'onImported', fakeIframe);
 
       const callback = getCallbackForEvent('onShow', mockIntercomSpy);
       callback();
       expect(onOpenSpy).toHaveBeenCalledTimes(1);
     });
+  });
 
-    it('triggers onClose when Intercom opens', async () => {
+  describe('onClose()', () => {
+    it('triggers when Intercom closes', () => {
       const onCloseSpy = jest.fn();
       const fakeIframe = document.createElement('iframe');
-      const intercom = await mount(
+      const intercom = shallow(
         <Intercom {...mockProps} onClose={onCloseSpy} />,
       );
 
-      intercom.find(ImportIsolatedRemote).prop('onImported')(fakeIframe);
+      trigger(intercom.find(ImportIsolatedRemote), 'onImported', fakeIframe);
 
       const callback = getCallbackForEvent('onHide', mockIntercomSpy);
       callback();
       expect(onCloseSpy).toHaveBeenCalledTimes(1);
     });
+  });
 
-    it('triggers onUnreadCountChange when Intercom opens', async () => {
+  describe('onUnreadCountChange()', () => {
+    it('triggers when the unread count changes', () => {
       const onUnreadCountChangeSpy = jest.fn();
       const fakeIframe = document.createElement('iframe');
-      const intercom = await mount(
+      const intercom = shallow(
         <Intercom
           {...mockProps}
           onUnreadCountChange={onUnreadCountChangeSpy}
         />,
       );
 
-      intercom.find(ImportIsolatedRemote).prop('onImported')(fakeIframe);
+      trigger(intercom.find(ImportIsolatedRemote), 'onImported', fakeIframe);
 
       const callback = getCallbackForEvent(
         'onUnreadCountChange',
@@ -169,6 +156,67 @@ describe('<Intercom />', () => {
       );
       callback();
       expect(onUnreadCountChangeSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('onInitialization()', () => {
+    it('gets called on initialization', () => {
+      const fakeIframe = document.createElement('iframe');
+      const onInitializationSpy = jest.fn();
+      const intercom = shallow(
+        <Intercom {...mockProps} onInitialization={onInitializationSpy} />,
+      );
+
+      trigger(intercom.find(ImportIsolatedRemote), 'onImported', fakeIframe);
+
+      expect(onInitializationSpy).toHaveBeenCalledWith(mockIntercomSpy);
+    });
+  });
+
+  describe('<ImportIsolatedRemote />', () => {
+    it('renders', () => {
+      const intercom = shallow(<Intercom {...mockProps} />);
+      expect(intercom.find(ImportIsolatedRemote).exists()).toBeTruthy();
+    });
+
+    it('sets an onImported callback', () => {
+      const intercom = shallow(<Intercom {...mockProps} />);
+      expect(
+        intercom.find(ImportIsolatedRemote).prop('onImported'),
+      ).toBeInstanceOf(Function);
+    });
+  });
+
+  describe('<BorderlessFrameListener />', () => {
+    it('does not render initially', () => {
+      const intercom = shallow(<Intercom {...mockProps} />);
+      expect(intercom.find(BorderlessFrameListener).exists()).toBeFalsy();
+    });
+
+    it('renders when a frame is present', () => {
+      const fakeIframe = document.createElement('iframe');
+      const intercom = shallow(<Intercom {...mockProps} />);
+      trigger(intercom.find(ImportIsolatedRemote), 'onImported', fakeIframe);
+      expect(intercom.find(BorderlessFrameListener).exists()).toBeTruthy();
+    });
+
+    it('receives the current frame', () => {
+      const fakeIframe = document.createElement('iframe');
+      const intercom = shallow(<Intercom {...mockProps} />);
+      trigger(intercom.find(ImportIsolatedRemote), 'onImported', fakeIframe);
+      expect(intercom.find(BorderlessFrameListener).prop('frame')).toEqual(
+        fakeIframe,
+      );
+    });
+  });
+
+  describe('shutdown event', () => {
+    it('calls shutdown when component unmounts', async () => {
+      const fakeIframe = document.createElement('iframe');
+      const intercom = shallow(<Intercom {...mockProps} />);
+      trigger(intercom.find(ImportIsolatedRemote), 'onImported', fakeIframe);
+      intercom.unmount();
+      expect(mockIntercomSpy).toHaveBeenCalledWith('shutdown');
     });
   });
 });
