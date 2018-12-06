@@ -1,15 +1,36 @@
 import * as React from 'react';
-import {mount} from 'enzyme';
-import Portal from '..';
+import {shallow} from 'enzyme';
+import {createPortal} from 'react-dom';
+import Portal from '../Portal';
+
+jest.mock('react-dom', () => ({
+  ...require.requireActual('react-dom'),
+  createPortal: jest.fn(() => null),
+}));
+
+const createPortalMock = createPortal as jest.Mock;
 
 describe('<Portal />', () => {
-  it('renders children into the document body', async () => {
-    await mount(
-      <Portal>
-        <div id="portal-test-node" />
-      </Portal>,
-    );
-    const node = document.body.querySelector('#portal-test-node');
-    expect(node).toBeInstanceOf(HTMLDivElement);
+  describe('children', () => {
+    it('get used for the portal creation', () => {
+      const children = <div />;
+      shallow(<Portal>{children}</Portal>);
+      expect(createPortalMock).toHaveBeenCalledWith(
+        children,
+        expect.anything(),
+      );
+    });
+
+    it('are attached to the document body', () => {
+      shallow(
+        <Portal>
+          <div />
+        </Portal>,
+      );
+      expect(createPortalMock).toHaveBeenCalledWith(
+        expect.anything(),
+        document.body,
+      );
+    });
   });
 });

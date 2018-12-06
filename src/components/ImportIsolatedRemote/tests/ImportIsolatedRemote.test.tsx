@@ -1,77 +1,78 @@
 import * as React from 'react';
-import {mount} from 'enzyme';
-import ImportIsolatedRemote from '..';
+import {mount, shallow} from 'enzyme';
+import ImportIsolatedRemote from '../ImportIsolatedRemote';
 
 describe('<ImportIsolatedRemote />', () => {
   const mockProps = {
     title: 'some-title',
-    source: 'https://js.intercomcdn.com/shim.d862c967.js',
+    source: 'some-url',
     onImported: () => {},
   };
 
-  it('renders an iframe', async () => {
-    const node = await mount(<ImportIsolatedRemote {...mockProps} />);
-    expect(node.find('iframe').exists()).toBeTruthy();
+  describe('title', () => {
+    it('gets passed into the iframe', () => {
+      const node = shallow(<ImportIsolatedRemote {...mockProps} />);
+      expect(node.find('iframe').prop('title')).toBe(mockProps.title);
+    });
   });
 
-  it('imports the given source', async () => {
-    const onImportedSpy = jest.fn();
-    const node = await mount(
-      <ImportIsolatedRemote {...mockProps} onImported={onImportedSpy} />,
-    );
+  describe('source', () => {
+    it('imports the given source', () => {
+      const onImportedSpy = jest.fn();
+      const node = mount(
+        <ImportIsolatedRemote {...mockProps} onImported={onImportedSpy} />,
+      );
+      const iframeNode = node.find('iframe').getDOMNode() as HTMLIFrameElement;
+      const script = iframeNode.contentWindow!.document.querySelector('script');
+      expect(script!.src).toBe(mockProps.source);
+    });
 
-    const iframeNode = node.find('iframe').getDOMNode() as HTMLIFrameElement;
-    const frameOnLoad = iframeNode!.onload!;
-    frameOnLoad.call({});
+    it('doesnt load script when the iframe has loaded after the component unmounted', () => {
+      const node = mount(<ImportIsolatedRemote {...mockProps} />);
+      const iframeNode = node.find('iframe').getDOMNode() as HTMLIFrameElement;
+      const script = iframeNode.contentWindow!.document.querySelector('script');
 
-    const script = iframeNode.contentWindow!.document.querySelector('script');
-    expect(script!.src).toBe(mockProps.source);
+      node.unmount();
+
+      expect(script!.onload!).toBeNull();
+    });
   });
 
-  it('triggers onImported when the script has loaded', async () => {
-    const onImportedSpy = jest.fn();
-    const node = await mount(
-      <ImportIsolatedRemote {...mockProps} onImported={onImportedSpy} />,
-    );
+  describe('onImported()', () => {
+    it('triggers onImported when the script has loaded', async () => {
+      const onImportedSpy = jest.fn();
+      const node = mount(
+        <ImportIsolatedRemote {...mockProps} onImported={onImportedSpy} />,
+      );
 
-    const iframeNode = node.find('iframe').getDOMNode() as HTMLIFrameElement;
-    const frameOnLoad = iframeNode!.onload!;
-    frameOnLoad.call({});
+      const iframeNode = node.find('iframe').getDOMNode() as HTMLIFrameElement;
+      const script = iframeNode.contentWindow!.document.querySelector('script');
+      const callback = script!.onload!;
 
-    const script = iframeNode.contentWindow!.document.querySelector('script');
-    const callback = script!.onload!;
+      callback.call(script, {} as Event);
+      expect(onImportedSpy).toBeCalled();
+    });
 
-    callback.call(script, {} as Event);
-    expect(onImportedSpy).toBeCalled();
+    it('doesnt trigger onImported when the script loads after the component has already been unmounted', () => {
+      const onImportedSpy = jest.fn();
+      const node = mount(
+        <ImportIsolatedRemote {...mockProps} onImported={onImportedSpy} />,
+      );
+
+      const iframeNode = node.find('iframe').getDOMNode() as HTMLIFrameElement;
+      const script = iframeNode.contentWindow!.document.querySelector('script');
+
+      node.unmount();
+
+      expect(script!.onload!).toBeNull();
+      expect(onImportedSpy).not.toBeCalled();
+    });
   });
 
-  it('doesnt trigger onImported when the script loads after the component has already been unmounted', async () => {
-    const onImportedSpy = jest.fn();
-    const node = await mount(
-      <ImportIsolatedRemote {...mockProps} onImported={onImportedSpy} />,
-    );
-
-    const iframeNode = node.find('iframe').getDOMNode() as HTMLIFrameElement;
-    const frameOnLoad = iframeNode!.onload!;
-    frameOnLoad.call({});
-
-    const script = iframeNode.contentWindow!.document.querySelector('script');
-
-    node.unmount();
-
-    expect(script!.onload!).toBeNull();
-    expect(onImportedSpy).not.toBeCalled();
-  });
-
-  it('doesnt load script when the iframe has loaded after the component unmounted', async () => {
-    const node = await mount(<ImportIsolatedRemote {...mockProps} />);
-    const iframeNode = node.find('iframe').getDOMNode() as HTMLIFrameElement;
-
-    const script = iframeNode.contentWindow!.document.querySelector('script');
-
-    node.unmount();
-
-    expect(iframeNode!.onload!).toBeNull();
-    expect(script).toBeFalsy();
+  describe('<iframe />', () => {
+    it('renders an iframe', () => {
+      const node = shallow(<ImportIsolatedRemote {...mockProps} />);
+      expect(node.find('iframe').exists()).toBeTruthy();
+    });
   });
 });

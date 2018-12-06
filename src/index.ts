@@ -1,1 +1,1 @@
-export {default, Props, UserData} from './Intercom';
+export {default, Props, User} from './Intercom';
