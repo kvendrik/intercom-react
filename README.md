@@ -48,7 +48,7 @@ What this means is that if you would get into a situation where you would have t
 
 I wrote this component to create an isolated Intercom component that cleans up after itself when unmounted for a "true" React experience.
 
-## A few notes on reliability
+## ⚠️ A few notes on reliability
 
 The main purpose of this component is to provide a way for you to intigrate Intercom into your project without having it live in the global scope and it therefor being unmountable.
 
