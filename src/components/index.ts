@@ -3,8 +3,8 @@ export {
   Props as ImportIsolatedRemoteProps,
 } from './ImportIsolatedRemote';
 export {
-  default as BorderlessFrameListener,
-  Props as BorderlessFrameListenerProps,
+  default as BorderlessFrameObserver,
+  Props as BorderlessFrameObserverProps,
   BorderlessFrameSizes,
-} from './BorderlessFrameListener';
+} from './BorderlessFrameObserver';
 export {default as Portal, Props as PortalProps} from './Portal';
