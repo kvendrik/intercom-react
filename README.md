@@ -13,7 +13,7 @@ An [Intercom](http://intercom.com/) component for React that truly encapsulates 
 yarn add intercom-react
 ```
 
-_Before you install the library make sure to read the [notes on reliability](#️-a-few-notes-on-reliability)._
+_️️⚠️ Before you install the library make sure to read the [notes on reliability](#️-a-few-notes-on-reliability)._
 
 ## Setup
 
