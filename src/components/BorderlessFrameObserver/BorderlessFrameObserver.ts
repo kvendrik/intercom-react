@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {bind} from 'lodash-decorators';
+import {injectCustomStyles} from '../../utilities';
 
 export interface BorderlessFrameSizes {
   width: string;
@@ -27,7 +28,7 @@ class BorderlessFrameObserver extends React.Component<Props, never> {
         childList: true,
       },
     );
-    this.injectCustomStyles();
+    this.injectCustomGradientStyles();
   }
 
   componentWillUnmount() {
@@ -38,21 +39,17 @@ class BorderlessFrameObserver extends React.Component<Props, never> {
     return null;
   }
 
-  private injectCustomStyles() {
-    const {
-      frame: {contentWindow},
-    } = this.props;
-
-    const node = document.createElement('style');
-
-    node.innerHTML = `
-      .intercom-gradient {
-        width: 100% !important;
-        height: 100% !important;
-      }
-    `;
-
-    contentWindow!.document.head!.appendChild(node);
+  private injectCustomGradientStyles() {
+    const {frame} = this.props;
+    injectCustomStyles(
+      frame,
+      `
+    .intercom-gradient {
+      width: 100% !important;
+      height: 100% !important;
+    }
+  `,
+    );
   }
 
   private observeNode(
