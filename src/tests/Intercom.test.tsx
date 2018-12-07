@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {shallow} from 'enzyme';
 import {trigger} from '@shopify/enzyme-utilities';
-import {ImportIsolatedRemote, BorderlessFrameListener} from '../components';
+import {ImportIsolatedRemote, BorderlessFrameObserver} from '../components';
 import Intercom from '../Intercom';
 
 const mockIntercomSpy = jest.fn(frame => frame);
@@ -128,7 +128,7 @@ describe('<Intercom />', () => {
       const fakeIframe = document.createElement('iframe');
       const intercom = shallow(<Intercom {...mockProps} launcher={false} />);
       trigger(intercom.find(ImportIsolatedRemote), 'onImported', fakeIframe);
-      expect(intercom.find(BorderlessFrameListener).prop('launcher')).toBe(
+      expect(intercom.find(BorderlessFrameObserver).prop('launcher')).toBe(
         false,
       );
     });
@@ -137,7 +137,7 @@ describe('<Intercom />', () => {
       const fakeIframe = document.createElement('iframe');
       const intercom = shallow(<Intercom {...mockProps} />);
       trigger(intercom.find(ImportIsolatedRemote), 'onImported', fakeIframe);
-      expect(intercom.find(BorderlessFrameListener).prop('launcher')).toBe(
+      expect(intercom.find(BorderlessFrameObserver).prop('launcher')).toBe(
         true,
       );
     });
@@ -223,24 +223,24 @@ describe('<Intercom />', () => {
     });
   });
 
-  describe('<BorderlessFrameListener />', () => {
+  describe('<BorderlessFrameObserver />', () => {
     it('does not render initially', () => {
       const intercom = shallow(<Intercom {...mockProps} />);
-      expect(intercom.find(BorderlessFrameListener).exists()).toBeFalsy();
+      expect(intercom.find(BorderlessFrameObserver).exists()).toBeFalsy();
     });
 
     it('renders when a frame is present', () => {
       const fakeIframe = document.createElement('iframe');
       const intercom = shallow(<Intercom {...mockProps} />);
       trigger(intercom.find(ImportIsolatedRemote), 'onImported', fakeIframe);
-      expect(intercom.find(BorderlessFrameListener).exists()).toBeTruthy();
+      expect(intercom.find(BorderlessFrameObserver).exists()).toBeTruthy();
     });
 
     it('receives the current frame', () => {
       const fakeIframe = document.createElement('iframe');
       const intercom = shallow(<Intercom {...mockProps} />);
       trigger(intercom.find(ImportIsolatedRemote), 'onImported', fakeIframe);
-      expect(intercom.find(BorderlessFrameListener).prop('frame')).toEqual(
+      expect(intercom.find(BorderlessFrameObserver).prop('frame')).toEqual(
         fakeIframe,
       );
     });
@@ -258,7 +258,7 @@ describe('<Intercom />', () => {
       const intercom = shallow(<Intercom {...mockProps} />);
       trigger(intercom.find(ImportIsolatedRemote), 'onImported', fakeIframe);
       trigger(
-        intercom.find(BorderlessFrameListener),
+        intercom.find(BorderlessFrameObserver),
         'onSizesUpdate',
         newSizes,
       );

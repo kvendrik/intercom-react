@@ -9,7 +9,7 @@ import {
 } from './utilities';
 import {
   ImportIsolatedRemote,
-  BorderlessFrameListener,
+  BorderlessFrameObserver,
   BorderlessFrameSizes,
 } from './components';
 import * as styles from './Intercom.scss';
@@ -75,11 +75,11 @@ class Intercom extends React.PureComponent<Props, State> {
     const {frame} = this.state;
     const importUrl = `https://widget.intercom.io/widget/${appId}`;
 
-    const borderlessFrameListener = frame && (
-      <BorderlessFrameListener
+    const borderlessFrameObserver = frame && (
+      <BorderlessFrameObserver
         frame={frame}
         onSizesUpdate={this.handleBorderlessFrameSizesUpdate}
-        launcher={Boolean(launcher)}
+        launcher={launcher as boolean}
       />
     );
 
@@ -90,7 +90,7 @@ class Intercom extends React.PureComponent<Props, State> {
           source={importUrl}
           onImported={this.initializeIntercom}
         />
-        {borderlessFrameListener}
+        {borderlessFrameObserver}
       </>
     );
   }

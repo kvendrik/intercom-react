@@ -15,7 +15,7 @@ export interface Props {
 const LAUNCHER_SIZE_PIXELS = 60;
 const LAUNCHER_MARGIN_PIXELS = 20;
 
-class BorderlessFrameListener extends React.Component<Props, never> {
+class BorderlessFrameObserver extends React.Component<Props, never> {
   private observer: MutationObserver | null = null;
 
   componentWillMount() {
@@ -137,4 +137,4 @@ function addMarginToPixels(pixelsString: string, margin: number) {
   return `${pixels + margin}px`;
 }
 
-export default BorderlessFrameListener;
+export default BorderlessFrameObserver;
