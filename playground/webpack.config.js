@@ -11,6 +11,7 @@ module.exports = {
   devServer: {
     contentBase: PLAYGROUND_PATH,
     port: 9000,
+    host: '0.0.0.0',
     compress: true,
     historyApiFallback: {
       rewrites: [{from: /^\/[^.]+$/, to: '/index.html'}],
