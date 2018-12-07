@@ -134,6 +134,7 @@ class Intercom extends React.PureComponent<Props, State> {
       onUnreadCountChange,
       user,
       onInitialization,
+      launcher,
     } = this.props;
 
     const intercom = getIntercomFromFrame(frame);
@@ -142,6 +143,7 @@ class Intercom extends React.PureComponent<Props, State> {
     intercom('boot', {
       app_id: appId,
       ...user,
+      hide_default_launcher: !launcher,
     });
 
     intercom('onShow', () => {

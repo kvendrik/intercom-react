@@ -93,7 +93,7 @@ class BorderlessFrameListener extends React.Component<Props, never> {
 
   @bind()
   private handleIntercomAppMutation(mutations: MutationRecord[]) {
-    const {launcher, onSizesUpdate, frame} = this.props;
+    const {launcher, onSizesUpdate} = this.props;
 
     for (const {target} of mutations) {
       const node = target as HTMLIFrameElement;
