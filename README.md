@@ -55,9 +55,11 @@ I wrote this component to create an isolated Intercom component that cleans up a
 
 The main purpose of this component is to provide a way for you to integrate Intercom into your project without having it live in the global scope and it therefor being unmountable.
 
-Getting that to work took quite a bit of [reverse engineering](https://github.com/kvendrik/intercom-react/pull/15) and I haven't been able to find a way to include a specific version of the library yet which means that **things might stop working in future versions of the Intercom library**. I would therefor recommend that you only use this library if you have a solid reason for needing Intercom to be unmountable. If not I recommend you use a solution like [`react-intercom`](https://github.com/nhagen/react-intercom) which simply mounts Intercom to the global scope.
+Getting that to work took quite a bit of [reverse engineering](https://github.com/kvendrik/intercom-react/pull/15) and I haven't been able to find a way to include a specific version of the library yet which means that **things might stop working as new versions of the Intercom library release** and that **the library should therefor be viewed as experimental**.
 
-Having that said I appreciate your interest in the library and look forward to hearing your experience with it 🙌 .
+I would therefor recommend that you only use this library if you have a very solid reason for needing Intercom to be unmountable. If not I recommend you use a solution like [`react-intercom`](https://github.com/nhagen/react-intercom) which simply mounts Intercom to the global scope.
+
+Having that said I appreciate your interest in the library and look forward to hearing about your experience with it 🙌 .
 
 ## 🏗 Contributing
 
