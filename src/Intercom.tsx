@@ -138,6 +138,10 @@ class Intercom extends React.PureComponent<Props, State> {
     } = this.props;
 
     const intercom = getIntercomFromFrame(frame);
+    if (!intercom) {
+      return;
+    }
+
     this.setState({frame});
 
     intercom('boot', {
